@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN">
+	<properties>
+		<property name="logMsgPattern">%d{yyyy-MM-dd HH:mm:ss} %-5p - %c [%t] - %msg%n</property>
+		<property name="logDir">C:/logs</property><!-- ${sys:testLogDir} -->
+	</properties>
+	<appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${logMsgPattern}" />
+		</Console>
+
+		<!-- <Routing name="Routing"> <Routes pattern="$${ctx:threadId}"> <Route> 
+			<RollingFile name="RollingFile-${ctx:threadId}" fileName="${logDir}/last-${ctx:threadId}.log" 
+			filePattern="${logDir}/%d{yyyy-MM-dd}/archived_%d{HH-mm}-${ctx:threadId}.log"> 
+			<PatternLayout pattern="${logMsgPattern}" /> <Policies> <OnStartupTriggeringPolicy 
+			/> </Policies> </RollingFile> </Route> </Routes> </Routing> -->
+
+		<RollingFile name="fileLogger"
+			fileName="${logDir}/app.log"
+			filePattern="${logDir}/app-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="${logMsgPattern}" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+		<RollingFile name="hibernateLogger"
+			fileName="${logDir}/app-hibernate.log"
+			filePattern="${logDir}/app-hibernate-%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="${logMsgPattern}" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+	</appenders>
+
+	<loggers>
+		<Logger name="com.blg" level="debug" additivity="false">
+			<appender-ref ref="Console" level="debug" />
+			<!-- <appender-ref ref="Routing" level="debug" /> -->
+			<appender-ref ref="fileLogger" level="debug" />
+		</Logger>
+		<Logger name="org.hibernate" level="info" additivity="false">
+			<appender-ref ref="Console" level="debug" />
+			<!-- <appender-ref ref="Routing" level="debug" /> -->
+			<appender-ref ref="hibernateLogger" level="debug" />
+		</Logger>
+		<Logger name="org.hibernate.type" level="warn" additivity="false">
+			<appender-ref ref="Console" level="debug" />
+			<!-- <appender-ref ref="Routing" level="debug" /> -->
+			<appender-ref ref="hibernateLogger" level="debug" />
+		</Logger>
+		<root level="debug">
+			<appender-ref ref="Console" level="debug" />
+			<!-- <appender-ref ref="Routing" level="debug" /> -->
+		</root>
+	</loggers>
+</configuration>

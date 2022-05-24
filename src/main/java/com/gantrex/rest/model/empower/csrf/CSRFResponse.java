@@ -1,0 +1,54 @@
+package com.gantrex.rest.model.empower.csrf;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gantrex.rest.model.empower.Header;
+
+public class CSRFResponse implements Serializable {
+
+	private static final long serialVersionUID = 5874298942077716944L;
+
+	@JsonProperty("header")
+	private Header header;
+	@JsonProperty("body")
+	private Body body;
+	@JsonIgnore
+	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+	@JsonProperty("header")
+	public Header getHeader() {
+		return header;
+	}
+
+	@JsonProperty("header")
+	public void setHeader(Header header) {
+		this.header = header;
+	}
+
+	@JsonProperty("body")
+	public Body getBody() {
+		return body;
+	}
+
+	@JsonProperty("body")
+	public void setBody(Body body) {
+		this.body = body;
+	}
+
+	@JsonAnyGetter
+	public Map<String, Object> getAdditionalProperties() {
+		return this.additionalProperties;
+	}
+
+	@JsonAnySetter
+	public void setAdditionalProperty(String name, Object value) {
+		this.additionalProperties.put(name, value);
+	}
+
+}
